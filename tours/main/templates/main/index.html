@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacayVibes - Your Perfect Travel Partner</title>
+    <meta name="description" content="Discover amazing travel packages for families, friends, adventure seekers. Budget to luxury tours with VacayVibes.">
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
+<body>
+    <!-- Header, Hero, Sections, Footer (same as your HTML) -->
+     <body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Vacay<span>Vibes</span></a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#packages">Packages</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Discover Your Next Adventure</h1>
+            <p>From budget-friendly getaways to luxury escapes. Family, friends, adventure - we've got you covered!</p>
+            <a href="#packages" class="cta-button">Explore Packages</a>
+        </div>
+    </section>
+
+    <!-- Featured Packages -->
+    <section id="packages">
+        <div class="container">
+            <div class="section-title">
+                <h2>Popular Tour Packages</h2>
+                <p>Handpicked destinations for unforgettable experiences</p>
+            </div>
+            <div class="packages-grid">
+                {% for package in packages %}
+                <div class="package-card">
+                    {% if package.image %}
+                    <img src="{{ package.image.url }}" alt="{{ package.title }}" class="package-image" loading="lazy">
+                    {% endif %}
+                    <div class="package-content">
+                        <span class="package-tag">{{ package.category }}</span>
+                        <h3>{{ package.title }}</h3>
+                        <p>{{ package.description|truncatechars:120 }}</p>
+                        <div class="package-details">
+                            <span>⏱️ {{ package.duration }}</span>
+                            <span>👥 {{ package.people }}</span>
+                        </div>
+                        <div class="package-footer">
+                            <div>
+                                <div class="price">৳{{ package.price }}</div>
+                                <div class="price-label">per person</div>
+                            </div>
+                            <button class="book-btn" onclick="bookNow('{{ package.title }}')">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No packages available yet. Add some from the <a href="/admin/">admin</a>.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose VacayVibes?</h2>
+                <p>Your trusted travel partner for memorable journeys</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Best Prices</h3>
+                    <p>Competitive rates with transparent pricing. No hidden costs, just great value.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Safe & Secure</h3>
+                    <p>Your safety is our priority. Verified partners and secure bookings.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Expert Guides</h3>
+                    <p>Professional, friendly guides who make your journey unforgettable.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📞</div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer service for peace of mind during your trip.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section id="destinations">
+        <div class="container">
+            <div class="section-title">
+                <h2>Explore Destinations</h2>
+                <p>Discover the beauty of Bangladesh</p>
+            </div>
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <img src="https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=600&q=80" alt="Beach" class="destination-image" loading="lazy">
+                    <div class="destination-overlay">
+                        <h3>Beach Destinations</h3>
+                        <p>Sun, sand, and sea awaits</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Mountains" class="destination-image" loading="lazy">
+                    <div class="destination-overlay">
+                        <h3>Mountain Escapes</h3>
+                        <p>Peaks and valleys to explore</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="https://images.unsplash.com/photo-1545486332-9e0999c535b2?w=600&q=80" alt="History" class="destination-image" loading="lazy">
+                    <div class="destination-overlay">
+                        <h3>Historical Sites</h3>
+                        <p>Rich culture and heritage</p>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80" alt="Nature" class="destination-image" loading="lazy">
+                    <div class="destination-overlay">
+                        <h3>Nature & Wildlife</h3>
+                        <p>Untouched natural beauty</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Travelers Say</h2>
+                <p>Real experiences from real people</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Amazing experience! VacayVibes made our family trip to Cox's Bazar absolutely perfect. Great service and value for money."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RK</div>
+                        <div class="author-info">
+                            <h4>Rahim Khan</h4>
+                            <p>Family Traveler</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Best adventure trip ever! The Sajek Valley package exceeded all expectations. Professional guides and well-organized itinerary."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SA</div>
+                        <div class="author-info">
+                            <h4>Sarah Ahmed</h4>
+                            <p>Adventure Seeker</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">"Highly recommend! Budget-friendly yet high-quality service. Our Sylhet tour was memorable from start to finish."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MI</div>
+                        <div class="author-info">
+                            <h4>Mohammad Islam</h4>
+                            <p>Budget Traveler</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <h2>Get Travel Deals & Updates</h2>
+            <p>Subscribe to our newsletter for exclusive offers and travel inspiration</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>VacayVibes</h3>
+                    <p>Your trusted travel partner for unforgettable journeys across Bangladesh and beyond.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="WhatsApp">💬</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#packages">Tour Packages</a></li>
+                        <li><a href="#destinations">Destinations</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <ul>
+                        <li>📧 info@vacayvibes.com</li>
+                        <li>📱 +880 1XXX-XXXXXX</li>
+                        <li>📍 Dhaka, Bangladesh</li>
+                        <li>⏰ 9 AM - 8 PM (Daily)</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Popular Tours</h3>
+                    <ul>
+                        <li><a href="#">Cox's Bazar</a></li>
+                        <li><a href="#">Sajek Valley</a></li>
+                        <li><a href="#">Sundarbans</a></li>
+                        <li><a href="#">Saint Martin's</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 VacayVibes. All rights reserved. | Designed for excellence</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="{% static 'main/js/script.js' %}"></script>
+</body>
+</html>
