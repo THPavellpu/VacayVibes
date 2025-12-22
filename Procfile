@@ -1,1 +1,2 @@
-web: cd tours && gunicorn tours.wsgi
+web: gunicorn tours.tours.wsgi
+
