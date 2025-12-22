@@ -1,8 +1,5 @@
 /* Example */
-.hero {
-    background: linear-gradient(rgba(10, 77, 162, 0.7), rgba(79, 163, 227, 0.7)), 
-                url("{% static 'main/images/hero.jpg' %}") center/cover;
-}
+
 * {
             margin: 0;
             padding: 0;
@@ -13,7 +10,7 @@
             --deep-blue: #0A4DA2;
             --sky-blue: #4FA3E3;
             --sun-orange: #FF8C42;
-            --white: #FFFFFF;
+            --white: #f5f5f0;
             --light-gray: #F8F9FA;
             --text-dark: #2C3E50;
             --text-light: #6C757D;
@@ -34,6 +31,15 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+            will-change: transform;
+        }
+
+        /* When scrolling down, hide the header */
+        header.nav-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
         }
 
         nav {
@@ -85,22 +91,36 @@
 
         /* Hero Section */
         .hero {
-            position: relative;
-            height: 600px;
-            background: linear-gradient(rgba(10, 77, 162, 0.7), rgba(79, 163, 227, 0.7)), 
-                        url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1600&q=80') center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-        }
+    position: relative;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    color: var(--white);
+}
 
-        .hero-content {
-            max-width: 800px;
-            padding: 2rem;
-            animation: fadeInUp 1s ease-out;
-        }
+/* HERO IMAGE (LCP ELEMENT) */
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(10, 77, 162, 0.35),
+        rgba(79, 163, 227, 0.35)
+    );
+    z-index: -1;
+}
 
         .hero h1 {
             font-size: 3.5rem;
@@ -169,8 +189,59 @@
             margin-top: 2rem;
         }
 
+        /* Homepage variant: use 3 columns on large screens so 6 items form 2 rows */
+        .packages-grid--home {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (max-width: 980px) {
+            .packages-grid--home {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .packages-grid--home {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .show-more-btn {
+            display: inline-block;
+            padding: 0.8rem 1.6rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Back link used in secondary pages */
+        .back-link {
+            margin-left: auto;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        /* If the header is light (rare), show dark link variant */
+        header.light .back-link {
+            color: var(--deep-blue);
+            background: rgba(10,77,162,0.04);
+            border-color: rgba(10,77,162,0.04);
+        }
+
         .package-card {
-            background: var(--white);
+            background: white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -222,6 +293,143 @@
             gap: 0.3rem;
         }
 
+        .package-inclusions {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .package-inclusions .inclusion {
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            margin-right: 0.35rem;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+
+        /* Booking form */
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2rem;
+            align-items: start;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 980px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .booking-form {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 30px rgba(11, 54, 120, 0.06);
+        }
+
+        .booking-form .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .booking-form label {
+            font-weight: 600;
+            color: var(--deep-blue);
+            font-size: 0.95rem;
+        }
+
+        .booking-form input[type="text"],
+        .booking-form input[type="email"],
+        .booking-form textarea {
+            padding: 0.65rem 0.8rem;
+            border-radius: 8px;
+            border: 1px solid #e6e9ef;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .booking-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 1rem;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.18);
+        }
+
+        .whatsapp-btn:active {
+            transform: translateY(0);
+        }
+
+        .package-summary {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(8, 47, 102, 0.06);
+        }
+
+        .package-summary .summary-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .package-summary .summary-content {
+            padding: 1rem;
+        }
+
+        .summary-title {
+            color: var(--deep-blue);
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .summary-price {
+            color: var(--sun-orange);
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-meta {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 0.6rem;
+        }
+
+        .summary-inclusions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
         .package-footer {
             display: flex;
             justify-content: space-between;
@@ -243,14 +451,25 @@
         }
 
         .book-btn {
+            display: inline-block;
             padding: 0.7rem 1.5rem;
             background: var(--deep-blue);
             color: var(--white);
+            text-decoration: none;
             border: none;
             border-radius: 25px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            text-align: center;
+        }
+
+        .book-btn:link,
+        .book-btn:visited,
+        .book-btn:hover,
+        .book-btn:active {
+            text-decoration: none;
+            color: var(--white);
         }
 
         .book-btn:hover {

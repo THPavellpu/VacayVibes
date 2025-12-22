@@ -4,6 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <img
+        src="https://res.cloudinary.com/dzi2c0noo/image/upload/f_auto,q_auto,w_1600/igor-tverdovskiy-_YlCZZguGY8-unsplash_wkollo.jpg"
+        alt="Beautiful travel destination"
+        class="hero-bg"
+        fetchpriority="high"
+        decoding="async"
+    >
+    <div class="hero-overlay"></div>
     <title>VacayVibes - Your Perfect Travel Partner</title>
     <meta name="description" content="Discover amazing travel packages for families, friends, adventure seekers. Budget to luxury tours with VacayVibes.">
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
@@ -42,32 +50,43 @@
                 <h2>Popular Tour Packages</h2>
                 <p>Handpicked destinations for unforgettable experiences</p>
             </div>
-            <div class="packages-grid">
+            <div class="packages-grid packages-grid--home">
                 {% for package in packages %}
                 <div class="package-card">
                     {% if package.image %}
                     <img src="{{ package.image.url }}" alt="{{ package.title }}" class="package-image" loading="lazy">
                     {% endif %}
                     <div class="package-content">
-                        <span class="package-tag">{{ package.category }}</span>
                         <h3>{{ package.title }}</h3>
                         <p>{{ package.description|truncatechars:120 }}</p>
                         <div class="package-details">
-                            <span>⏱️ {{ package.duration }}</span>
+                            <span>⏱️ {% if package.days or package.nights %}{{ package.days }} Days {{ package.nights }} Nights{% else %}{{ package.duration }}{% endif %}</span>
                             <span>👥 {{ package.people }}</span>
+                        </div>
+                        <div class="package-inclusions">
+                            <strong>Includes:</strong>
+                            {% for inc in package.inclusions.all %}
+                                <span class="inclusion">{{ inc.name }}</span>{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                <span class="inclusion">Not specified</span>
+                            {% endfor %}
                         </div>
                         <div class="package-footer">
                             <div>
                                 <div class="price">৳{{ package.price }}</div>
                                 <div class="price-label">per person</div>
                             </div>
-                            <button class="book-btn" onclick="bookNow('{{ package.title }}')">Book Now</button>
+                            <a href="{% url 'book' %}?package_id={{ package.id }}" class="book-btn">Book Now</a>
                         </div>
                     </div>
                 </div>
                 {% empty %}
                 <p>No packages available yet. Add some from the <a href="/admin/">admin</a>.</p>
                 {% endfor %}
+            </div>
+
+            <div style="text-align:center; margin-top:1.5rem;">
+                <a href="{% url 'all_packages' %}" class="cta-button show-more-btn">Explore More</a>
             </div>
         </div>
     </section>
@@ -112,34 +131,15 @@
                 <p>Discover the beauty of Bangladesh</p>
             </div>
             <div class="destinations-grid">
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?w=600&q=80" alt="Beach" class="destination-image" loading="lazy">
+                {% for dest in destinations %}
+                <a href="{% url 'category_packages' dest.slug %}" class="destination-card">
+                    <img src="{{ dest.image }}" alt="{{ dest.label }}" class="destination-image" loading="lazy">
                     <div class="destination-overlay">
-                        <h3>Beach Destinations</h3>
-                        <p>Sun, sand, and sea awaits</p>
+                        <h3>{{ dest.label }}</h3>
+                        <p>Explore {{ dest.label }}</p>
                     </div>
-                </div>
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" alt="Mountains" class="destination-image" loading="lazy">
-                    <div class="destination-overlay">
-                        <h3>Mountain Escapes</h3>
-                        <p>Peaks and valleys to explore</p>
-                    </div>
-                </div>
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1545486332-9e0999c535b2?w=600&q=80" alt="History" class="destination-image" loading="lazy">
-                    <div class="destination-overlay">
-                        <h3>Historical Sites</h3>
-                        <p>Rich culture and heritage</p>
-                    </div>
-                </div>
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80" alt="Nature" class="destination-image" loading="lazy">
-                    <div class="destination-overlay">
-                        <h3>Nature & Wildlife</h3>
-                        <p>Untouched natural beauty</p>
-                    </div>
-                </div>
+                </a>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -194,8 +194,9 @@
         <div class="container">
             <h2>Get Travel Deals & Updates</h2>
             <p>Subscribe to our newsletter for exclusive offers and travel inspiration</p>
-            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
-                <input type="email" placeholder="Enter your email address" required>
+            <form class="newsletter-form" method="post" action="{% url 'subscribe' %}">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Enter your email address" required>
                 <button type="submit">Subscribe</button>
             </form>
         </div>
@@ -243,12 +244,25 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 VacayVibes. All rights reserved. | Designed for excellence</p>
+                <p>&copy; 2025 VacayVibes. All rights reserved. | Designed by Tanvir Hossen Pavel</p>
             </div>
         </div>
     </footer>
 
 
     <script src="{% static 'main/js/script.js' %}"></script>
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/69432277b9708c1984ad764b/1jcn3t9ik';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>

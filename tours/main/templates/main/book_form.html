@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Package</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
+<body>
+<header>
+    <nav>
+        <a href="/" class="logo">Vacay<span>Vibes</span></a>
+        <a href="javascript:void(0)" class="back-link" onclick="if(document.referrer){ history.back(); } else { window.location='/' }">← Back</a>
+    </nav>
+</header>
+
+<section class="container">
+    <div class="section-title">
+        <h2>Book Now</h2>
+        <p>Fill out the details and our team will contact you shortly.</p>
+    </div>
+
+    <div class="booking-container">
+        <div class="booking-form">
+            <form method="post" action="{% url 'book' %}">
+                {% csrf_token %}
+                <input type="hidden" name="package_id" value="{{ package.id }}">
+
+                <div class="field">
+                    <label for="id_name">Full name</label>
+                    <input id="id_name" type="text" name="name" placeholder="Your full name" required>
+                </div>
+
+                <div class="field">
+                    <label for="id_email">Email</label>
+                    <input id="id_email" type="email" name="email" placeholder="you@example.com" required>
+                </div>
+
+                <div class="field">
+                    <label for="id_phone">Phone</label>
+                    <input id="id_phone" type="text" name="phone" placeholder="Mobile or WhatsApp number">
+                </div>
+
+                <div class="field">
+                    <label for="id_message">Message (optional)</label>
+                    <textarea id="id_message" name="message" placeholder="Any specific requests or questions"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="cta-button">Send Booking Request</button>
+                    <button type="button" class="whatsapp-btn" data-number="{{ admin_whatsapp }}" onclick="openWhatsApp(this)">Message via WhatsApp</button>
+                    <a href="/" class="button secondary" style="background:none; padding:0; color:var(--deep-blue);">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <aside class="package-summary">
+            {% if package and package.image %}
+                <img src="{{ package.image.url }}" alt="{{ package.title }}" class="summary-image">
+            {% endif %}
+            <div class="summary-content">
+                {% if package %}
+                    <div class="summary-title">{{ package.title }}</div>
+                    <div class="summary-price">৳{{ package.price }}</div>
+                    <div class="summary-meta">{% if package.days or package.nights %}{{ package.days }} Days • {{ package.nights }} Nights{% elif package.duration %}{{ package.duration }}{% endif %} • {{ package.people }}</div>
+
+                    <div style="margin-top:0.6rem; margin-bottom:0.6rem;"><strong>Includes</strong></div>
+                    <div class="summary-inclusions">
+                        {% for inc in package.inclusions.all %}
+                            <span class="inclusion">{{ inc.name }}</span>
+                        {% empty %}
+                            <span class="inclusion">Not specified</span>
+                        {% endfor %}
+                    </div>
+
+                    <div style="margin-top:1rem;">
+                        <a href="{% url 'all_packages' %}" class="cta-button" style="width:100%; display:inline-block; text-align:center;">View similar packages</a>
+                    </div>
+                {% else %}
+                    <div class="summary-title">General Booking</div>
+                    <p class="summary-meta">Provide details and we will match a package for you.</p>
+                {% endif %}
+            </div>
+        </aside>
+    </div>
+</section>
+
+<script src="{% static 'main/js/script.js' %}"></script>
+</body>
+</html>

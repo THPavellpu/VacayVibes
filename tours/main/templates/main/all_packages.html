@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Tour Packages</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">Vacay<span>Vibes</span></a>
+            <a href="javascript:void(0)" class="back-link" onclick="if(document.referrer){ history.back(); } else { window.location='/' }">← Back</a>
+        </nav>
+    </header>
+
+    <section class="container">
+        <div class="section-title">
+            <h2>All Tour Packages</h2>
+            <p>Explore all available packages</p>
+        </div>
+
+        <div class="packages-grid">
+            {% for package in packages %}
+            <div class="package-card">
+                {% if package.image %}
+                <img src="{{ package.image.url }}" alt="{{ package.title }}" class="package-image" loading="lazy">
+                {% endif %}
+                <div class="package-content">
+                    <h3>{{ package.title }}</h3>
+                    <p>{{ package.description|truncatechars:120 }}</p>
+                    <div class="package-details">
+                        <span>⏱️ {% if package.days or package.nights %}{{ package.days }} Days {{ package.nights }} Nights{% else %}{{ package.duration }}{% endif %}</span>
+                        <span>👥 {{ package.people }}</span>
+                    </div>
+                    <div class="package-inclusions">
+                        <strong>Includes:</strong>
+                        {% for inc in package.inclusions.all %}
+                            <span class="inclusion">{{ inc.name }}</span>{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            <span class="inclusion">Not specified</span>
+                        {% endfor %}
+                    </div>
+                    <div class="package-footer">
+                        <div>
+                            <div class="price">৳{{ package.price }}</div>
+                            <div class="price-label">per person</div>
+                        </div>
+                        <a href="{% url 'book' %}?package_id={{ package.id }}" class="book-btn">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No packages available yet. Add some from the <a href="/admin/">admin</a>.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <script src="{% static 'main/js/script.js' %}"></script>
+</body>
+</html>
