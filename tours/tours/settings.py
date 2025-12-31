@@ -22,8 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   
-    'main',
+    'tours.main',
     'cloudinary',
     'cloudinary_storage',
 ]
