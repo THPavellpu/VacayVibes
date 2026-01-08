@@ -122,3 +122,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 ADMIN_WHATSAPP = '+919872573812'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://vacayvibes-production.up.railway.app",
+]
