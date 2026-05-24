@@ -144,11 +144,11 @@
 }       
 @media (max-width: 768px) {
         header {
-        background: #ffffff !important;
+        background: #ffffff;
     }
 
     nav {
-        background: #ffffff !important;
+        background: #ffffff;
     
 
     .menu-toggle {
