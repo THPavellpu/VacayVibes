@@ -93,7 +93,7 @@
             display: none;
             background: none;
             border: none;
-            color: var(--white);
+            color: #0A4DA2;
             font-size: 1.5rem;
             cursor: pointer;
         }
@@ -142,7 +142,40 @@
         display: block;
     }
 }       
+@media (max-width: 768px) {
 
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.2rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        color: #0A4DA2;
+        font-size: 1.05rem;
+        font-weight: 600;
+    }
+
+    .nav-links a:hover {
+        color: #65B741;
+    }
+}
 .hero-overlay {
     position: absolute;
     inset: 0;
