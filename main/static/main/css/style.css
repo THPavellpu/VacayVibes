@@ -148,7 +148,7 @@
     }
 
     nav {
-        background: #ffffff;
+        background: #ffffff;}
     
 
     .menu-toggle {
@@ -842,4 +842,4 @@
                 grid-template-columns: 1fr;
             }
         }
-    }
+    
