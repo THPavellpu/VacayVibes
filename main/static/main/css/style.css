@@ -184,13 +184,7 @@
     }
 }
 .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        rgba(10, 77, 162, 0.35),
-        rgba(79, 163, 227, 0.35)
-    );
-    z-index: -1;
+    display: none;
 }
 
         .hero h1 {
