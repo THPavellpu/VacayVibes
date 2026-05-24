@@ -51,16 +51,25 @@
             padding: 1rem 2rem;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--white);
-            text-decoration: none;
-        }
+        /* Logo */
+.logo {
+    font-size: 2rem;
+    font-weight: 800;
+    text-decoration: none;
+    color: #0A4DA2; /* Vacay Blue */
+    letter-spacing: 0.5px;
+    transition: 0.3s ease;
+}
 
-        .logo span {
-            color: var(--sun-orange);
-        }
+/* Vibes Green */
+.logo span {
+    color: #65B741;
+}
+
+/* Hover effect */
+.logo:hover {
+    transform: scale(1.03);
+}
 
         .nav-links {
             display: flex;
