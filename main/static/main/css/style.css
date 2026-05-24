@@ -111,6 +111,28 @@
     z-index: -2;
   
 }
+.hero-desktop {
+    display: block;
+}
+
+.hero-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .hero {
+        height: 100vh;
+    }
+
+    .hero-desktop {
+        display: none;
+    }
+
+    .hero-mobile {
+        display: block;
+    }
+}       
 
 .hero-overlay {
     position: absolute;
