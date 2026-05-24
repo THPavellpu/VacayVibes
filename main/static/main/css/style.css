@@ -25,8 +25,8 @@
 
         /* Header & Navigation */
         header {
-            background: var(--deep-blue);
-            color: var(--white);
+            background: #ffffff;
+            color: var(--text-dark);
             position: sticky;
             top: 0;
             z-index: 1000;
