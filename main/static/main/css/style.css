@@ -79,14 +79,14 @@
         }
 
         .nav-links a {
-            color: var(--white);
+            color: #0A4DA2;
             text-decoration: none;
             transition: color 0.3s;
             font-weight: 500;
         }
 
         .nav-links a:hover {
-            color: var(--sun-orange);
+            color: #65B741;
         }
 
         .menu-toggle {
